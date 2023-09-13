@@ -73,11 +73,17 @@ Obtener la contraseña para el usuario admin
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
+Port forward
 ```bash
-
-kubectl create namespace argocd
+kubectl port-forward service/argo-cd-argocd-server -n argocd 8080:443
 ```
 
+Instalar la cli de argo
 ```bash
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+brew install argocd
+```
+
+Login de la cli 
+```bash
+argocd login localhost:8080
 ```
