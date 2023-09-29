@@ -87,3 +87,65 @@ Login de la cli
 ```bash
 argocd login localhost:8080
 ```
+
+Actualizar password
+```bash
+argocd account update-password
+```
+
+Add repository
+```bash
+argocd repo add https://github.com/mrojasabregu/argocd.git
+```
+
+```bash
+argocd proj create testing -d https://kubernetes.default.svc,testing -s https://github.com/mrojasabregu/argocd.git
+```
+
+````bash
+argocd proj create system-admin -d https://kubernetes.default.svc,* -s '*'
+````
+
+````bash
+kubectl create ns testing
+````
+
+````bash
+argocd app create guestbook \
+  --repo https://github.com/mrojasabregu/argocd.git \
+  --revision main --path ./examples/guestbook \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace testing \
+  --sync-policy automated \
+  --project testing
+````
+  
+
+Relanzar la App y sincronizar desde la CLI
+````bash
+argocd app sync guestbook
+````
+Si queremos saber el estatus de la App
+````
+argocd app get guestbook
+````
+Eliminar las Apps
+````
+argocd app delete guestbook
+````
+ Listar los Charts instalados
+````
+helm list -n argocd
+````
+Desistalar todo
+````
+helm uninstall argo-cd -n argocd
+````
+Eliminar los Namespaces 
+````
+kubectl delete ns argocd testing
+````
+Detener Minikube
+```
+minikube stop
+```
